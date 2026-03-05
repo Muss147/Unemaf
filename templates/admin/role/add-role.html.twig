@@ -1,0 +1,93 @@
+{% extends 'admin/layout.html.twig' %}
+{% block title 'Ajout d\'Admin' %}
+
+{% block description %} Add user {% endblock %}
+
+{% block style %}
+	<!--begin::Page Custom Styles(used by this page) -->
+	<link href="assets/css/pages/wizard/wizard-4.css" rel="stylesheet" type="text/css" />
+	<!--end::Page Custom Styles -->
+<style type="text/css">
+#detailAdmin .fa {
+	cursor: pointer;
+	margin-left: 15px;
+}
+</style>
+{% endblock %}
+
+{% block body %}
+<!-- begin:: Content Head -->
+<div class="kt-subheader   kt-grid__item" id="kt_subheader">
+	<div class="kt-container  kt-container--fluid ">
+		<div class="kt-subheader__main">
+			<h3 class="kt-subheader__title">
+				Nouvelle Admin
+			</h3>
+			<span class="kt-subheader__separator kt-subheader__separator--v"></span>
+			<div class="kt-subheader__group" id="kt_subheader_search">
+				<span class="kt-subheader__desc" id="kt_subheader_total">
+					Entez les details de l'Admin et validez </span>
+			</div>
+		</div>
+		<div class="kt-subheader__toolbar">
+			<a href="#" class="btn btn-default btn-bold">
+				Retour </a>
+			<div class="btn-group">
+				<button type="button" class="btn btn-brand btn-bold">
+					Valider </button>
+				<button type="button" class="btn btn-brand btn-bold dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				</button>
+				<div class="dropdown-menu dropdown-menu-right">
+					<ul class="kt-nav">
+						<li class="kt-nav__item">
+							<a href="#" class="kt-nav__link">
+								<i class="kt-nav__link-icon flaticon2-writing"></i>
+								<span class="kt-nav__link-text">Enregistrer &amp; continuer</span>
+							</a>
+						</li>
+						<li class="kt-nav__item">
+							<a href="#" class="kt-nav__link">
+								<i class="kt-nav__link-icon flaticon2-medical-records"></i>
+								<span class="kt-nav__link-text">Enregistrer &amp; Ajouter</span>
+							</a>
+						</li>
+						<li class="kt-nav__item">
+							<a href="#" class="kt-nav__link">
+								<i class="kt-nav__link-icon flaticon2-hourglass-1"></i>
+								<span class="kt-nav__link-text">Enregistrer &amp; Quitter</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- end:: Content Head -->
+
+<!-- begin:: Content -->
+<div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
+
+	<!--begin::Portlet-->
+	<div class="kt-portlet kt-portlet--mobile">
+		<div class="kt-portlet__body kt-portlet__body--fit">
+
+			<!--begin:: Widgets/New Users-->
+			<div class="kt-portlet kt-portlet--tabs kt-portlet--height-fluid">
+				<div class="kt-portlet__body">
+					<div class="tab-content">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- end:: Content -->
+{% endblock %}
+
+{% block script %}
+<script  type="text/javascript">
+</script>
+{% endblock %}

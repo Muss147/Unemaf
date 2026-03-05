@@ -1,0 +1,238 @@
+{% extends 'admin/layout.html.twig' %}
+{% block title %}
+	{% if page.id is empty %}
+		Ajout de Page
+	{% else %}
+		{{ page.titre }}
+	{% endif %}
+{% endblock %}
+
+{% block description %} Ajout et modification de Page {% endblock %}
+
+{% block style %}
+<link href="{{asset('assets/css/pages/wizard/wizard-4.css')}}" rel="stylesheet" type="text/css" />
+<style type="text/css">
+
+
+</style>
+{% endblock %}
+
+{% block body %}
+<!-- begin:: Content Head -->
+<div class="kt-subheader   kt-grid__item" id="kt_subheader">
+	<div class="kt-container  kt-container--fluid ">
+		<div class="kt-subheader__main">
+			<h3 class="kt-subheader__title">
+				{% if page.id is empty %}
+					Nouvelle Page
+				{% else %}
+					<b class="text-primary" style="max-width: 500px">{{ page.titre }}</b>
+				{% endif %}
+			</h3>
+			<span class="kt-subheader__separator kt-subheader__separator--v"></span>
+			<div class="kt-subheader__group" id="kt_subheader_search">
+				<span class="kt-subheader__desc" id="kt_subheader_total">
+					Entrez les details de la page et validez </span>
+			</div>
+		</div>
+		<div class="kt-subheader__toolbar">
+			<a href="{{ path('page.list') }}" class="btn btn-default btn-bold">
+				Retour </a>
+			{# <div class="btn-group">
+				<button type="button" class="btn btn-brand btn-bold">
+					Valider </button>
+				<button type="button" class="btn btn-brand btn-bold dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				</button>
+				<div class="dropdown-menu dropdown-menu-right">
+					<ul class="kt-nav">
+						<li class="kt-nav__item">
+							<a href="#" class="kt-nav__link">
+								<i class="kt-nav__link-icon flaticon2-writing"></i>
+								<span class="kt-nav__link-text">Enregistrer &amp; continuer</span>
+							</a>
+						</li>
+						<li class="kt-nav__item">
+							<a href="#" class="kt-nav__link">
+								<i class="kt-nav__link-icon flaticon2-medical-records"></i>
+								<span class="kt-nav__link-text">Enregistrer &amp; Ajouter</span>
+							</a>
+						</li>
+						<li class="kt-nav__item">
+							<a href="#" class="kt-nav__link">
+								<i class="kt-nav__link-icon flaticon2-hourglass-1"></i>
+								<span class="kt-nav__link-text">Enregistrer &amp; Quitter</span>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div> #}
+		</div>
+	</div>
+</div>
+
+<!-- end:: Content Head -->
+
+<!-- begin:: Content -->
+<div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
+	<div class="kt-wizard-v4" id="kt_user_add_user" data-ktwizard-state="step-first">
+
+		<div class="kt-portlet">
+			<div class="kt-portlet__body kt-portlet__body--fit">
+				<div class="kt-grid">
+					<div class="kt-grid__item kt-grid__item--fluid kt-wizard-v4__wrapper">
+
+						<!--begin: Form Wizard Form-->
+						<form class="kt-form" action="{{ path('page.new') }}" method="post" enctype="multipart/form-data">
+
+							<!--begin: Form Wizard -->
+							<div class="kt-wizard-v4__content" data-ktwizard-type="step-content" data-ktwizard-state="current">
+								<div class="kt-section kt-section--first">
+									<div class="kt-wizard-v4__form">
+										<div class="row">
+											<div class="col-xl-12">
+												<div class="kt-section__body">
+													<div class="form-group row">
+														<div class="col-12">
+															<label class="col-form-label">Couverture <sup>*</sup></label>
+															<div class="kt-avatar kt-avatar--outline" id="kt_user_add_avatar" style="width: 100%">
+																<div class="kt-avatar__holder" style="background-image: url({{ asset('uploads/images/' ~ page.couverture.source|default('defaultImg.png')) }}); width: 100%; height: 200px"></div>
+																<label class="kt-avatar__upload" data-toggle="kt-tooltip" title="Change avatar">
+																	<i class="fa fa-pen"></i>
+																	<input type="hidden" name="token" value="{{ csrf_token('upload') }}" />
+																	<input type="file" name="couverture">
+																</label>
+																<span class="kt-avatar__cancel" data-toggle="kt-tooltip" title="Cancel avatar">
+																	<i class="fa fa-times"></i>
+																</span>
+															</div>
+														</div>
+													</div>
+													<div class="form-group row">
+														<div class="col-12">
+															<label class="col-form-label">Titre <sup>*</sup></label>
+															<input class="form-control" type="hidden" name="id" value="{{ page.id }}">
+															<input class="form-control" type="text" name="titre" value="{{ page.titre }}" required>
+														</div>
+														<div class="col-md-6">
+															<label class="col-form-label">Menu <sup>*</sup></label>
+															<select class="form-control select2 kt_select2_3" name="menu" onchange="setRubriques()">
+																<option value="mainMenu" {% if page.menu and page.menu.type == "main-menu" %}selected{% endif %}>Menu principal</option>
+																<option value="supMenu" {% if page.menu and page.menu.type == "sup-menu" %}selected{% endif %}>Menu supérieur</option>
+															</select>
+														</div>
+														<div id="rubriques" class="col-md-6"></div>
+													</div>
+													<div class="form-group row">
+														<div class="col-12">
+															<label class="col-form-label">Description</label>
+															<textarea id="kt-ckeditor-1" class="form-control" name="desc">{{ page.description }}</textarea>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!--end: Form Wizard -->
+
+							<!--begin: Form Actions -->
+							<div class="kt-form__actions">
+								<button class="btn btn-success btn-md btn-tall btn-wide kt-font-bold kt-font-transform-u" type="submit">
+									Soumettre
+								</button>
+							</div>
+
+							<!--end: Form Actions -->
+						</form>
+
+						<!--end: Form Wizard Form-->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- end:: Content -->
+{% endblock %}
+
+{% block script %}
+<script src="{{asset('assets/js/pages/custom/user/add-user.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/plugins/custom/ckeditor/ckeditor-classic.bundle.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/js/pages/crud/forms/editors/ckeditor-classic.js')}}" type="text/javascript"></script>
+
+<script  type="text/javascript">
+
+// Class definition
+var KTSelect2 = function() {
+    // Private functions
+    var demos = function() {
+        // multi select
+        $('.kt_select2_3').select2({
+           placeholder: "Selectionner un ou plusieurs",
+        });
+
+        $('.kt_datetimepicker').datetimepicker();
+
+        ClassicEditor
+            .create( document.querySelector('#kt-ckeditor-1'))
+            .then( editor => {
+                console.log( editor );
+            })
+            .catch( error => {
+                console.error( error );
+            })
+        ;
+    }
+
+    // Public functions
+    return {
+        init: function() {
+            demos();
+        }
+    };
+}();
+
+// Initialization
+jQuery(document).ready(function() {
+    KTSelect2.init();
+});
+
+setRubriques();
+function setRubriques() {
+	var value = $('select[name=menu]').val();
+	console.log(value);
+	if (value != "") {
+		var content = '<label class="col-form-label">Rubrique <sup>*</sup></label>'+
+		'<select class="form-control select2 kt_select2_3" name="rubrique">';
+		if (value == 'mainMenu') {
+			{% for menu in mainMenu %}
+				{% if page.id is empty %}
+					content += '<option value="{{ menu.id }}">{{ menu.libelle }}</option>';
+				{% else %}
+					content += '<option value="{{ menu.id }}" {% if page.menu.id == menu.id %}selected{% endif %}>{{ menu.libelle }}</option>';
+				{% endif %}
+			{% endfor %}
+		}
+		else if (value == 'supMenu') {
+			{% for menu in supMenu %}
+				{% if page.id is empty %}
+					content += '<option value="{{ menu.id }}">{{ menu.libelle }}</option>';
+				{% else %}
+					content += '<option value="{{ menu.id }}" {% if page.menu.id == menu.id %}selected{% endif %}>{{ menu.libelle }}</option>';
+				{% endif %}
+			{% endfor %}
+		}
+		content += '</select>';
+		$('#rubriques').html(content);
+		
+        // multi select
+        $('.kt_select2_3').select2({
+           placeholder: "Selectionner un ou plusieurs",
+        });
+	}
+}
+</script>
+{% endblock %}

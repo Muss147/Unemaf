@@ -1,0 +1,49 @@
+<div class="widget border shadow-sm mb-4 p-4">
+    <div class="bg-red text-center">
+        <a class="btn btn-text text-white p-1" href="" target="_blank">Toutes les notes circulaires</a>
+    </div>
+</div>
+<div class="widget border text-center shadow-sm mb-4">
+    <div class="border-bottom bg-grey-o py-2 px-3">
+        <h5 class="widget-title">Documents utiles</h5>
+    </div>
+    <div class="p-4">
+    {% for doc in docUtiles %}
+        <a href="{{ asset('uploads/images/' ~ doc.fichier.source|default('default.jpg')) }}" target="_blank" class="" title="{{ doc.titre }}">
+            <span>{{ doc.titre|striptags|slice(0, 36) }}</span>
+            <div class="textwidget"></div>
+        </a>
+        {% if not loop.last %}<hr>{% endif %}
+    {% endfor %}
+    </div>
+</div>
+<div class="widget border text-center shadow-sm mb-4">
+    <div class="border-bottom bg-grey-o py-2 px-3">
+        <h5 class="widget-title">Notes circulaires</h5>
+    </div>
+    <div class="p-4">
+    {% for note in noteCirculaires %}
+        <a href="{{ asset('uploads/images/' ~ note.fichier.source) }}" target="_blank" class="pps-btn-img pps-button-popup-11678 pps-button-popup " title="{{ note.titre }}">
+            <div class="textwidget" align="center">
+                {{ note.titre|striptags|slice(0, 36) }}...
+            </div>
+        </a>
+        {% if not loop.last %}<hr>{% endif %}
+    {% endfor %}
+    </div>
+</div>
+<div class="widget border text-center shadow-sm mb-4">
+    <div class="border-bottom bg-grey-o py-2 px-3">
+        <h5 class="widget-title">Catalogue</h5>
+    </div>
+    <div class="p-4">
+    {% for cat in catalogues %}
+        <a href="{{ asset('uploads/images/' ~ cat.fichier.source) }}" target="_blank">
+            <div class="textwidget" align="center">
+                {{ cat.titre|striptags|slice(0, 36) }}...
+            </div>
+        </a>
+        {% if not loop.last %}<hr>{% endif %}
+    {% endfor %}
+    </div>
+</div>

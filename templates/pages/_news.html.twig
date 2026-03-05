@@ -1,0 +1,20 @@
+<!--breaking news-->
+<div class="container py-4">
+	<div class="ticker-wrap">
+		<div class="ticker-heading"><span class="d-none d-md-block">INFOS</span></div>
+		<div class="ticker">
+			{% for info in infos %}
+				<div class="ticker__item">
+					<a href="{{ info.lien }}">{{ info.texte }}</a>
+				</div>
+			{% endfor %}
+			{% if infos|length == 0 %}
+				<div class="ticker__item">
+					<span>Aucune information pour l'instant...</span>
+				</div>
+			{% endif %}
+		</div>
+		<div class="current_time position-absolute bg-grey text-white d-none d-md-block" style="top:0; right:0;padding: 10px 20px;border-left: 5px solid white;"> GMT {{ "now"|date("H:i", "Europe/London") }} </div>
+	</div>
+</div>
+<!--end breaking news-->

@@ -1,0 +1,166 @@
+<header class="my-header">
+	<div class="sup-header bg-prm" style="line-height: 40px; -moz-osx-font-smoothing: auto;">
+		<div class="container d-flex justify-content-between align-items-center">
+			<div class="header-items top-nav" style="flex:1">
+				<div class="float-left mr-3">{{ "now"|date("l, d M Y") }}</div>
+				<div class="top-left-content">
+					<ul id="menu-top-menu" class="top-nav mom_visibility_desktop">
+						{% for index, menu in supMenu %}
+						<li id="menu-item-{{index}}" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-parent-item menu-item-{{index}}">
+							{% if menu.pages|length > 1 %}
+								<a href="javascript:;">{{menu.libelle|upper}}</a>
+								<ul class="sub-menu">
+									{% for page in menu.pages %}
+									<li id="menu-item-{{index}}" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-{{index}}">
+										<a href="{{ path('pages', {slug: menu.slug}) }}#{{page.slug}}">{{page.titre}}</a>
+									</li>
+									{% endfor %}
+								</ul>
+							{% else %}
+								<a href="{{ path('pages', {slug: menu.slug}) }}">{{menu.libelle|upper}}</a>
+							{% endif %}
+						</li>
+						{% endfor %}
+						<li class="menu-item menu-item-language menu-item-language-current">
+							<a href="#" onclick="return false">
+								<img class="iclflag" src="{{asset('assets/media/flags/fr.png')}}" width="18" height="12" alt="fr" title="Français"/> 
+								Français
+							</a>
+							<ul class="sub-menu submenu-languages">
+								<li class="menu-item menu-item-language">
+									<a href="">
+										<img class="iclflag" src="{{asset('assets/media/flags/en.png')}}" width="18" height="12" alt="en" title="English &lt;span class=&quot;icl_lang_sel_bracket&quot;&gt;(&lt;/span&gt;Anglais&lt;span class=&quot;icl_lang_sel_bracket&quot;&gt;)&lt;/span&gt;"/> 
+										English
+									</a>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="menu-icon">
+				<a href="javascript:;" class="icon" onclick="showMenu($(this))"><i class="material-icons">menu</i></a>
+			</div>
+			<div class="header-social">
+				<a target="_blank" class="ml-3" href="https://twitter.com/">
+					<i class="fa fa-twitter"></i>
+				</a>
+				<a target="_blank" class="ml-3" href="https://www.facebook.com/Union-des-entreprises-agricoles-et-foresti%C3%A8res-Unemaf-1764992767131583">
+					<i class="fa fa-facebook-square"></i>
+				</a>
+				<a target="_blank" class="ml-3" href="https://www.youtube.com/">
+					<i class="fa fa-youtube-play"></i>
+				</a>
+			</div>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-4 d-flex align-items-center">
+				<img class="w-100" src="/assets/media/logos/logo-slogan.png" alt="UNEMAF" style="min-width: 200px" height="">
+			</div>
+			<div class="col-sm-8">
+				<img class="w-100" src="/assets/media/bg/espacePub.png" alt="PUB" width="" height="">
+			</div>
+		</div>
+	</div>
+	<div class="sub-header bg-grey text-white">
+		<div class="container position-relative d-flex align-items-center justify-content-between" style="height: 55px;">
+			<div class="menu-icon">
+				<a href="javascript:;" class="icon" onclick="showMenu($(this))"><i class="material-icons">menu</i></a>
+			</div>
+			<div class="header-items home">
+				<a href="{{ path('home') }}" class="menu-lnk">
+					<i class="fa fa-home fa-2x"></i>
+				</a>
+			</div>
+			<div class="header-items menu" align="center" style="flex:1">
+				{% for index, menu in mainMenu %}
+					{% if menu.pages|length > 1 and menu.slug != 'contact' %}
+					<span class="drp-dwn">
+						<a href="javascript:;" class="menu-lnk"><span>{{menu.libelle}}</span><i class="material-icons">keyboard_arrow_down</i></a>
+						<div class="drp-dwn-content d-flex justify-content-start p-5">
+							<div class="mr-4">
+								<a href="" class="menu-lnk border-bottom d-block pb-3 h5">Actualités des instances</a>
+								<ul>
+									{% for page in menu.pages|slice(0, 3) %}
+									<li><a href="">{{page.titre}}</a></li>
+									{% endfor %}
+								</ul>
+							</div>
+							<div class="mr-4">
+								<a href="" class="menu-lnk border-bottom d-block pb-3 h5">Commissions</a>
+								<ul>
+									{% for page in menu.pages|slice(4, 6) %}
+									<li><a href="">{{page.titre}}</a></li>
+									{% endfor %}
+								</ul>
+							</div>
+						</div>
+					</span>
+					{% else %}
+					<a href="{{ path('pages', {slug: menu.slug}) }}" class="menu-lnk"><span>{{menu.libelle}}</span></a>
+					{% endif %}
+				{% endfor %}
+				{# <a href="" class="menu-lnk"><span>Contact</span></a> #}
+			</div>
+			<div class="header-items mx-4">
+				<a href="{{ path('login') }}" class="menu-lnk">
+					<i class="fa fa-user-circle fa-2x"></i>
+				</a>
+			</div>
+			<div class="header-items">
+				<a href="{{ path('home') }}" class="menu-lnk">
+					<i class="fa fa-search fa-2x"></i>
+				</a>
+			</div>
+		</div>
+	</div>
+</header>
+<!-- Menu Modal -->
+<div class="_1Chya">
+	<div class="_165n6" style="z-index: 9;">
+		<div role="presentation" class="dqRou icon-close"></div>
+		<div data-animate="true" class="j1ltH mob-menu" style="">
+			<div class="_1BPmj">
+				<div role="presentation" class="_3zhVe _25M8h icon icon-close">
+					<i class="material-icons text-prm">close</i>
+				</div>
+			</div>
+			<div class="_3eLeo" align="center" style="overflow-y:scroll; flex:unset; height:auto; padding-top: 6rem">
+				<ul style="margin-bottom: 4.5rem">
+					{% for index, menu in supMenu %}
+					<li>
+						{% if menu.pages|length > 1 %}
+						<a href="javascript:;" class="lnk text-prm" onclick="smMenu($(this).next(), {{ (menu.pages|length * 50) }})"><span>{{menu.libelle}}</span></a>
+						<ul>
+							{% for page in menu.pages %}
+							<li><a href="{{ path('pages', {slug: menu.slug}) }}#{{page.slug}}" class="lnk text-white"><span>{{page.titre}}</span></a></li>
+							{% endfor %}
+						</ul>
+						{% else %}
+						<a href="{{ path('pages', {slug: menu.slug}) }}" class="lnk text-prm"><span>{{menu.libelle}}</span></a>
+						{% endif %}
+					</li>
+					{% endfor %}
+				</ul>
+			</div>
+			<div class="mob-menu-footer">
+				<hr>
+				<div class="header-signup d-flex justify-content-around social p-2">
+					<a target="_blank" class="ml-3" href="https://twitter.com/">
+						<i class="fa fa-twitter fa-2x"></i>
+					</a>
+					<a target="_blank" class="ml-3" href="https://www.facebook.com/Union-des-entreprises-agricoles-et-foresti%C3%A8res-Unemaf-1764992767131583">
+						<i class="fa fa-facebook-square fa-2x"></i>
+					</a>
+					<a target="_blank" class="ml-3" href="https://www.youtube.com/">
+						<i class="fa fa-youtube-play fa-2x"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+	
+{% include 'pages/_news.html.twig' %}

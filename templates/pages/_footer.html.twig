@@ -1,0 +1,57 @@
+<footer id="footer" class="container-fluid bg-grey" style="color: #c6c6c6">
+	<section class="container py-5">
+		<div class="row">
+			<div class="col-md-4">
+				<div class="border-bottom mb-4">
+					<h5 style="font-weight:500; color:white">Récemment publiés...</h5>
+				</div>
+				{% for activity in footerActs %}
+					<div class="row mb-3">
+						<div class="col-3 p-0">
+							<a href="{{ path('activite', {type: activity.type.libelle|slug, slug: activity.slug}) }}"><img src="{{ asset('uploads/images/' ~ activity.couverture.source|default('sansImg2.png')) }}" alt="{{activity.titre}}" width="90" height="60"></a>
+						</div>
+						<div class="col-9">
+							<a href="">{{activity.titre}}</a>
+							<div class="">
+								<small style="color:#6a7078">{{ activity.dateActivity|date('d-m-Y à H:m') }}</small>
+							</div>
+						</div>
+					</div> <!--//post-->
+				{% endfor %}
+			</div><!-- End third col -->
+			<div class="col-md-4">
+				<div class="border-bottom mb-4">
+					<h5 style="font-weight:500; color:white">Documents à télécharger</h5>
+				</div>
+				<div class="textwidget">
+					{% for doc in footerDocs %}
+						<p><a href="{{ asset('uploads/images/' ~ doc.fichier.source) }}" target="_blank">{{doc.titre}}</a></br></p>
+					{% endfor %}
+				</div>
+			</div><!-- End third col -->
+			<div class="col-md-4 last">
+				<a href="{{ path('home') }}">
+					<img src="{{ asset('assets/media/logos/logo-slogan.png') }}" alt="UNEMAF" style="min-width: 200px" height="100"/>
+				</a>
+				<p>L’Union des Entreprises du Monde Agricole et Forestier<br />
+					Cocody, 2 Plateau<br />
+					Tél: (+225) 0000-0000 · Fax: (+225) 0000-0000<br />
+					info@unemaf.org · www.unemaf.org<br />
+					00 BP 0000 Abidjan 00 Abidjan 
+				</p>
+				<div class="">
+					<a target="_blank" class="ml-3" href="https://twitter.com/">
+						<i class="fa fa-twitter"></i>
+					</a>
+					<a target="_blank" class="ml-3" href="https://www.facebook.com/Union-des-entreprises-agricoles-et-foresti%C3%A8res-Unemaf-1764992767131583">
+						<i class="fa fa-facebook-square"></i>
+					</a>
+					<a target="_blank" class="ml-3" href="https://www.youtube.com/">
+						<i class="fa fa-youtube-play"></i>
+					</a>
+				</div>
+			</div><!-- End third col -->
+			<div class="clear"></div>                    
+		</div> <!--// footer inner-->
+	</section>
+</footer> <!--//footer-->

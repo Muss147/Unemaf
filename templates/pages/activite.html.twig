@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title activity.titre %}
+
+{% block stylesheets %}
+<style type="text/css">
+
+</style>
+{% endblock %}
+
+{% block body %}
+    <section id="inner" class="container">
+    	<div class="row">
+           	<div class="col-md-7">
+                <div class="ariane border-bottom text-uppercase py-2 mb-4">
+                    <a href="{{path('home')}}" style="color:#6a7078">Accueil</a> <i class="material-icons" style="vertical-align: bottom">keyboard_arrow_right</i>
+                    <a href="{{path('list_activite', {slug: activity.type.libelle|slug})}}" style="color:#6a7078">{{activity.type.libelle}}</a> <i class="material-icons" style="vertical-align: bottom">keyboard_arrow_right</i>
+                    <strong class="text-dark">{{activity.titre}}</strong>
+                </div>
+                <div class="border bg-grey-o py-3 px-4 mb-4">
+                    <img src="{{ asset('uploads/images/' ~ activity.couverture.source|default('sansImg2.png')) }}" alt="{{ activity.titre }}" width="100%" height="250" style="object-fit: cover">
+                    <h3 class="widget-title my-3">{{activity.titre}}</h3>
+                    <div class="mom-post-meta nb-item-meta">
+                        <small style="color:#6a7078">{{ activity.dateActivity|date('l m Y à H:m') }}</small>
+                    </div> 
+                    <hr>
+                    <div class="body">{{ activity.description|raw }}</div>
+                </div>
+                <div class="">
+                </div>
+            </div>
+
+    		<div class="col-md-2 secondary-sidebar p-0">
+				{{ render(controller(
+					'App\\Controller\\HomeController::secondarySidebar'
+				)) }}
+			</div> 
+			
+			<div class="col-md-3 main-sidebar">
+				{% include 'pages/_mainSidebar.html.twig' %}
+			</div> 
+       	</div>
+   	</section> 
+{% endblock %}
+
+{% block javascripts %}
+<script>
+
+</script>
+{% endblock %}

@@ -1,0 +1,129 @@
+{% extends 'admin/layout.html.twig' %}
+{% block title "Nouvelle Info" %}
+
+{% block description %} Nouvelle Info {% endblock %}
+
+{% block style %}
+	<!--begin::Page Custom Styles(used by this page) -->
+	<link href="{{asset('assets/css/pages/wizard/wizard-4.css')}}" rel="stylesheet" type="text/css" />
+	<!--end::Page Custom Styles -->
+<style type="text/css">
+.removeSecteur {
+	position: absolute;
+	bottom: 0px;
+}
+.form-group.row {
+	background: #F2F3F8;
+	border-radius: 5px;
+	padding: 15px;
+}
+</style>
+{% endblock %}
+
+{% block body %}
+<!-- begin:: Content Head -->
+<div class="kt-subheader   kt-grid__item" id="kt_subheader">
+	<div class="kt-container  kt-container--fluid ">
+		<div class="kt-subheader__main">
+			<h3 class="kt-subheader__title">Nouvelle Info</h3>
+			<span class="kt-subheader__separator kt-subheader__separator--v"></span>
+			<div class="kt-subheader__group" id="kt_subheader_search">
+				<span class="kt-subheader__desc" id="kt_subheader_total">
+					Entrez les details de l'Info et validez </span>
+			</div>
+		</div>
+		<div class="kt-subheader__toolbar">
+			<a href="{{ path('info.list') }}" class="btn btn-default btn-bold">Retour </a>
+		</div>
+	</div>
+</div>
+
+<!-- end:: Content Head -->
+
+<!-- begin:: Content -->
+<div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
+	<div class="kt-wizard-v4" id="kt_user_add_user" data-ktwizard-state="step-first">
+
+		<div class="kt-portlet">
+			<div class="kt-portlet__body kt-portlet__body--fit">
+				<div class="kt-grid">
+					<div class="kt-grid__item kt-grid__item--fluid kt-wizard-v4__wrapper">
+
+						<!--begin: Form Wizard Form-->
+						<form class="kt-form" action="{{ path('info.new') }}" method="post">
+
+							<!--begin: Form Wizard -->
+							<div class="kt-wizard-v4__content" data-ktwizard-type="step-content" data-ktwizard-state="current">
+								<div class="kt-section kt-section--first">
+									<div class="kt-wizard-v4__form">
+										<div class="row">
+											<div class="col-xl-12">
+												<div align="left">
+													<button class="btn btn-outline-success" onclick="addSecteur()"><i class="flaticon2-add"></i> Ajouter</button>
+												</div>
+												<br/>
+												<div class="kt-section__body">
+													<div class="first">
+														<div class="form-group row">
+															<div class="col-sm-11">
+																<label class="col-form-label">Texte <sup>*</sup></label>
+																<textarea id="kt-ckeditor-1" class="form-control" name="texte[]" required></textarea>
+															</div>
+															<div class="col-sm-11">
+																<label class="col-form-label">Lien vers <sup>*</sup></label>
+																<input class="form-control" type="url" name="lien[]" placeholder="https://" required>
+															</div>
+															<div class="col-md-1">
+																<button class="btn btn-outline-danger removeSecteur"><i class="flaticon2-trash"></i></button>
+															</div>
+															{# <div class="col-lg-9 col-xl-9">
+																<textarea id="kt-ckeditor-1" class="form-control" id="message-text" name="desc">{{ secteur.description }}</textarea>
+															</div> #}
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<!--end: Form Wizard -->
+
+							<!--begin: Form Actions -->
+							<div class="kt-form__actions">
+								<button class="btn btn-success btn-md btn-tall btn-wide kt-font-bold kt-font-transform-u" type="submit">
+									Valider
+								</button>
+							</div>
+
+							<!--end: Form Actions -->
+						</form>
+
+						<!--end: Form Wizard Form-->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- end:: Content -->
+{% endblock %}
+
+{% block script %}
+<script src="{{asset('assets/js/pages/custom/user/add-user.js')}}" type="text/javascript"></script>
+<script src="{{asset('assets/plugins/custom/ckeditor/ckeditor-classic.bundle.js')}}" type="text/javascript"></script>
+
+<script  type="text/javascript">
+function addSecteur() {
+	var secteur = $(".kt-form div.kt-section__body");
+	var secteurContent = secteur.find(".first").html();
+	secteur.append(secteurContent);
+
+	$(".removeSecteur").click(function() {
+		$(this).parent().parent().remove();
+	})
+}
+</script>
+{% endblock %}
