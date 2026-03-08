@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
@@ -26,8 +27,11 @@ class PageController extends AbstractController
     ) {}
 
     #[Route('/page-list', name: 'page.list')]
-    public function listPage(): Response
+    public function listPage(SessionInterface $session): Response
     {
+        $session->set('menu', 'pages');
+        $session->set('sub-menu', 'list-page');
+
         return $this->render('admin/page/list-page.html.twig', [
             'pages' => $this->pageRepository->findAll()
         ]);
@@ -36,10 +40,15 @@ class PageController extends AbstractController
     #[Route('/page-new', name: 'page.new')]
     public function newPage(
         Request $request, 
+        SessionInterface $session, 
         FileUploader $fileUploader, 
+        ParametresRepository $parametresRepository, 
         SluggerInterface $slugger
     ): Response
     {
+        $session->set('menu', 'pages');
+        $session->set('sub-menu', 'add-page');
+
         $idPage = $request->query->get("id");
         $page = $idPage ? $this->pageRepository->find($idPage) : new Page();
         
@@ -54,12 +63,16 @@ class PageController extends AbstractController
             }
 
             $titre = $request->request->get("titre");
-            $rubrique = $this->parametresRepository->find($request->request->get("rubrique"));
+            $rubriques = $request->request->all("rubriques");
             $desc = $request->request->get("desc");
+
+            foreach ($page->getMenus() as $value) $page->removeMenu($value);
+            foreach ($rubriques as $rubriqueId) {
+                if ($rubrique = $parametresRepository->find($rubriqueId)) $page->addMenu($rubrique);
+            }
 
             $page->setTitre($titre)
                 ->setSlug($slugger->slug($titre)->lower()) // Utilisation du service natif
-                ->setMenu($rubrique)
                 ->setDescription($desc);
 
             // Gestion automatique des timestamps si la méthode existe

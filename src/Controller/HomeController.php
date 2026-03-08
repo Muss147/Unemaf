@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Page;
 use App\Entity\Parametres;
 use App\Repository\ActivityRepository;
 use App\Repository\DocumentsRepository;
 use App\Repository\InfoRepository;
+use App\Repository\PageRepository;
 use App\Repository\ParametresRepository;
 use App\Repository\PhotosRepository;
 use App\Repository\SliderRepository;
@@ -58,12 +60,13 @@ class HomeController extends AbstractController
         ]);
     }
 
-    #[Route('/pages/{slug}', name: 'pages')]
-    public function showpage(Parametres $menu): Response
+    #[Route('/page/{slug}', name: 'pages')]
+    public function showpage(PageRepository $pageRepository, $slug): Response
     {
+        $page = $pageRepository->findOneBySlug($slug);
         return $this->render('pages/pages.html.twig', [
-            'menu' => $menu,
-            'pages' => $menu->getPages(),
+            'page' => $page,
+            'menus' => $page->getMenus(),
         ]);
     }
 

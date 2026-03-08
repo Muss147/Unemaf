@@ -149,11 +149,12 @@
 										data-id="{{param.id}}" 
 										data-libelle="{{param.libelle}}"
 										data-desc="{{param.description}}"
+										data-page="{{param.page ? param.page.id : ''}}"
 										data-parent="{{param.parent ? param.parent.id : ''}}"
 										data-present="{{param.presentation}}"
 										data-toggle="modal" data-target="#kt_modal_5">
 										Voir
-									</a>	
+									</a>
 									<form action="{{ path('param.delete', {id: param.id}) }}" method="post" onsubmit="return confirm('Êtes-vous vraiment sûr ?')">
 										<input type="hidden" name="_method" value="DELETE">
 										<input type="hidden" name="_token" value="{{ csrf_token('delete' ~ param.id) }}" />
@@ -194,7 +195,7 @@
                         </div>
 						{% if type == 'main-menu' or type == 'sup-menu' %}
                         <div class="form-group row">
-							<div class="col-md-6">
+							<div class="col-md-6 mb-4">
 								<label for="" class="form-control-label w-100">Parent</label>
 								<select class="form-control select2 kt_select2_3" name="parent">
 									<option value="">Aucun</option>
@@ -203,7 +204,7 @@
 									{% endfor %}
 								</select>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-6 mb-4">
 								<label for="" class="form-control-label w-100">Présentation</label>
 								<select class="form-control select2 kt_select2_3" name="present">
 									<option value="Aucune">Aucune</option>
@@ -211,11 +212,20 @@
 									<option value="Verticale">Verticale</option>
 								</select>
 							</div>
+							<div class="col-12">
+								<label for="" class="form-control-label w-100">Pages</label>
+								<select class="form-control select2 kt_select2_3" name="page">
+									<option value="Aucune">Aucune</option>
+									{% for page in pages %}
+									<option value="{{page.id}}">{{page.titre}}</option>
+									{% endfor %}
+								</select>
+							</div>
 						</div>
 						{% endif %}
                         <div class="form-group">
                             <label for="message-text" class="form-control-label">Description:</label>
-                            <textarea class="form-control" id="message-text" name="desc"></textarea>
+                            <textarea class="form-control" rows="7" id="message-text" name="desc"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -244,7 +254,7 @@
                         </div>
 						{% if type == 'main-menu' or type == 'sup-menu' %}
                         <div class="form-group row">
-							<div class="col-md-6">
+							<div class="col-md-6 mb-4">
 								<label for="" class="form-control-label w-100">Parent</label>
 								<select id="edit_parent" class="form-control select2 kt_select2_3" name="parent">
 									<option value="">Aucun</option>
@@ -253,7 +263,7 @@
 									{% endfor %}
 								</select>
 							</div>
-							<div class="col-md-6">
+							<div class="col-md-6 mb-4">
 								<label for="" class="form-control-label w-100">Présentation</label>
 								<select class="form-control select2 kt_select2_3" name="present">
 									<option value="Aucune">Aucune</option>
@@ -261,11 +271,20 @@
 									<option value="Verticale">Verticale</option>
 								</select>
 							</div>
+							<div class="col-12">
+								<label for="" class="form-control-label w-100">Pages</label>
+								<select class="form-control select2 kt_select2_3" name="page">
+									<option value="Aucune">Aucune</option>
+									{% for page in pages %}
+									<option value="{{page.id}}">{{page.titre}}</option>
+									{% endfor %}
+								</select>
+							</div>
 						</div>
 						{% endif %}
                         <div class="form-group">
                             <label for="message-text" class="form-control-label">Description:</label>
-                            <textarea class="form-control" id="message-text" name="desc"></textarea>
+                            <textarea class="form-control" rows="7" id="message-text" name="desc"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -300,6 +319,7 @@ $('#kt_modal_5').on('show.bs.modal', function (event) {
     var desc = button.data('desc');
     var parent = button.data('parent');
     var present = button.data('present');
+    var page = button.data('page');
 
     var modal = $(this);
 
@@ -313,17 +333,20 @@ $('#kt_modal_5').on('show.bs.modal', function (event) {
         .val(parent)
         .trigger('change');
 
+    modal.find('select[name=page]')
+        .val(page)
+        .trigger('change');
+
     modal.find('select[name=present]')
         .val(present)
         .trigger('change');
 
-
-	$('#kt_modal_5 .kt_select2_3').select2({
-		placeholder: "Veuillez sélectionner",
-		minimumResultsForSearch: Infinity,
-		width: '100%',
-		dropdownParent: $('#kt_modal_5')
-	});
+    modal.find('.kt_select2_3').select2({
+        placeholder: "Veuillez sélectionner",
+        minimumResultsForSearch: Infinity,
+        width: '100%',
+        dropdownParent: modal
+    });
 
 });
 

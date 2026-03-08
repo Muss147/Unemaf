@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title menu.libelle %}
+{% block title page.titre %}
 
 {% block stylesheets %}
 <style type="text/css">
@@ -14,25 +14,25 @@
            	<div class="col-md-9">
                 <div class="ariane border-bottom text-uppercase py-2 mb-4">
                     <a href="{{path('home')}}" style="color:#6a7078">Accueil</a> <i class="material-icons" style="vertical-align: bottom">keyboard_arrow_right</i>
-                    <strong class="text-dark">{{menu.libelle}}</strong>
+                    <strong class="text-dark">{{page.titre}}</strong>
                 </div>
                 <div class="border bg-grey-o py-3 px-4 mb-4">
-                    <h3 class="widget-title my-3">{{menu.libelle}}</h3>
+                    <h3 class="widget-title my-3">{{page.titre}}</h3>
                     <hr>
                     <div class="row mt-5">
-                        {% if menu.presentation != 'Aucune' %}
-                            <div class="col-{% if menu.presentation == 'Verticale' %}md-3{% else %}12 pb-5{% endif %}">
-                                <div class="nav {% if menu.presentation == 'Verticale' %}flex-column{% endif %} nav-pills" id="v-pills-tab" role="tablist" {% if menu.presentation == 'Verticale' %}aria-orientation="vertical"{% endif %}>
-                                    {% for page in pages %}
-                                    <a class="btn btn-link border py-2 {% if loop.first %}active{% endif %}" id="v-pills-{{page.slug}}-tab" data-toggle="pill" href="#{{page.slug}}" role="tab" aria-controls="v-pills-{{page.slug}}" aria-selected="true">{{page.titre}}</a>
+                        {% if menus|first and menus|first.presentation != 'Aucune' %}
+                            <div class="col-{% if menus|first.presentation == 'Verticale' %}md-3{% else %}12 pb-5{% endif %}">
+                                <div class="nav {% if menus|first.presentation == 'Verticale' %}flex-column{% endif %} nav-pills" id="v-pills-tab" role="tablist" {% if menus|first.presentation == 'Verticale' %}aria-orientation="vertical"{% endif %}>
+                                    {% for menu in menus %}
+                                    <a class="btn btn-link border py-2 {% if loop.first %}active{% endif %}" id="v-pills-{{menu.slug}}-tab" data-toggle="pill" href="#{{menu.slug}}" role="tab" aria-controls="v-pills-{{menu.slug}}" aria-selected="true">{{menu.libelle}}</a>
                                     {% endfor %}
                                 </div>
                             </div>
                             <div class="col-md-9">
                                 <div class="tab-content" id="v-pills-tabContent">
-                                    {% for page in pages %}
-                                    <div class="tab-pane fade {% if loop.first %}show active{% endif %}" id="{{page.slug}}" role="tabpanel" aria-labelledby="v-pills-{{page.slug}}-tab">
-                                        {{page.description|raw}}
+                                    {% for menu in menus %}
+                                    <div class="tab-pane fade {% if loop.first %}show active{% endif %}" id="{{menu.slug}}" role="tabpanel" aria-labelledby="v-pills-{{menu.slug}}-tab">
+                                        {{menu.description|raw}}
                                     </div>
                                     {% endfor %}
                                 </div>

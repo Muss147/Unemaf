@@ -50,15 +50,15 @@ class Parametres extends EntityBase
     #[ORM\OneToMany(targetEntity: Documents::class, mappedBy: 'type', cascade: ['persist'])]
     private Collection $documents;
 
-    #[ORM\OneToMany(targetEntity: Page::class, mappedBy: 'menu', cascade: ['persist'])]
-    private Collection $pages;
+    #[ORM\ManyToOne(targetEntity: Page::class, inversedBy: 'menus')]
+    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
+    private ?Page $page = null;
 
     public function __construct()
     {
         $this->children = new ArrayCollection();
         $this->activities = new ArrayCollection();
         $this->documents = new ArrayCollection();
-        $this->pages = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -164,17 +164,6 @@ class Parametres extends EntityBase
         return $this->documents;
     }
 
-    /**
-     * @return Collection<int, Page>
-     */
-    public function getPages(): Collection
-    {
-        return $this->pages;
-    }
-
-    // ... (Note: J'ai omis les add/remove répétitifs pour la lisibilité, 
-    // assure-toi de garder ta logique interne en utilisant 'static' comme retour)
-
     public function getSlug(): ?string
     {
         return $this->slug;
@@ -241,24 +230,14 @@ class Parametres extends EntityBase
         return $this;
     }
 
-    public function addPage(Page $page): static
+    public function getPage(): ?Page
     {
-        if (!$this->pages->contains($page)) {
-            $this->pages->add($page);
-            $page->setMenu($this);
-        }
-
-        return $this;
+        return $this->page;
     }
 
-    public function removePage(Page $page): static
+    public function setPage(?Page $page): static
     {
-        if ($this->pages->removeElement($page)) {
-            // set the owning side to null (unless already changed)
-            if ($page->getMenu() === $this) {
-                $page->setMenu(null);
-            }
-        }
+        $this->page = $page;
 
         return $this;
     }

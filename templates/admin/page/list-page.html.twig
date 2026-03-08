@@ -140,7 +140,7 @@
 												{{ page.titre }}
 											</a>
 											<p class="kt-widget5__desc">
-												<span class="text-uppercase">{{ page.menu.type }}</span> | {{ page.menu.libelle }}
+												{% for menu in page.menus %}<span class="text-uppercase">{{ menu.libelle }}</span>{% if not loop.last %} | {% endif %}{% endfor %}
 											</p>
 											<div class="kt-widget5__info">
 												<span>Date de publication:</span>

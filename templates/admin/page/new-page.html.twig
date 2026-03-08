@@ -116,8 +116,8 @@
 														<div class="col-md-6">
 															<label class="col-form-label">Menu <sup>*</sup></label>
 															<select class="form-control select2 kt_select2_3" name="menu" onchange="setRubriques()">
-																<option value="mainMenu" {% if page.menu and page.menu.type == "main-menu" %}selected{% endif %}>Menu principal</option>
-																<option value="supMenu" {% if page.menu and page.menu.type == "sup-menu" %}selected{% endif %}>Menu supérieur</option>
+																<option value="supMenu" {% if page.menus|first and page.menus|first.type == "sup-menu" %}selected{% endif %}>Menu supérieur</option>
+																<option value="mainMenu" {% if page.menus|first and page.menus|first.type == "main-menu" %}selected{% endif %}>Menu principal</option>
 															</select>
 														</div>
 														<div id="rubriques" class="col-md-6"></div>
@@ -171,7 +171,8 @@ var KTSelect2 = function() {
     var demos = function() {
         // multi select
         $('.kt_select2_3').select2({
-           placeholder: "Selectionner un ou plusieurs",
+			minimumResultsForSearch: Infinity,
+           	placeholder: "Selectionner un ou plusieurs",
         });
 
         $('.kt_datetimepicker').datetimepicker();
@@ -206,9 +207,9 @@ function setRubriques() {
 	console.log(value);
 	if (value != "") {
 		var content = '<label class="col-form-label">Rubrique <sup>*</sup></label>'+
-		'<select class="form-control select2 kt_select2_3" name="rubrique">';
+		'<select class="form-control select2 kt_select2_3" name="rubriques[]" multiple>';
 		if (value == 'mainMenu') {
-			{% for menu in mainMenu %}
+			{% for menu in mainMenu|filter(m => m.children|length == 0) %}
 				{% if page.id is empty %}
 					content += '<option value="{{ menu.id }}">{{ menu.libelle }}</option>';
 				{% else %}
@@ -217,11 +218,12 @@ function setRubriques() {
 			{% endfor %}
 		}
 		else if (value == 'supMenu') {
-			{% for menu in supMenu %}
+			{% for menu in supMenu|filter(m => m.children|length == 0) %}
 				{% if page.id is empty %}
 					content += '<option value="{{ menu.id }}">{{ menu.libelle }}</option>';
 				{% else %}
-					content += '<option value="{{ menu.id }}" {% if page.menu.id == menu.id %}selected{% endif %}>{{ menu.libelle }}</option>';
+					{% set pageMenus = page.menus|map(m => m.id) %}
+					content += '<option value="{{ menu.id }}" {% if menu.id in pageMenus %}selected{% endif %}>{{ menu.libelle }}</option>';
 				{% endif %}
 			{% endfor %}
 		}
@@ -230,7 +232,8 @@ function setRubriques() {
 		
         // multi select
         $('.kt_select2_3').select2({
-           placeholder: "Selectionner un ou plusieurs",
+			minimumResultsForSearch: Infinity,
+           	placeholder: "Selectionner un ou plusieurs",
         });
 	}
 }

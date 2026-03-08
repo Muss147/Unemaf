@@ -7,12 +7,12 @@
 					<ul id="menu-top-menu" class="top-nav mom_visibility_desktop">
 						{% for index, menu in supMenu %}
 						<li id="menu-item-{{index}}" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-parent-item menu-item-{{index}}">
-							{% if menu.pages|length > 1 %}
+							{% if menu.children|length != 0 %}
 								<a href="javascript:;">{{menu.libelle|upper}}</a>
 								<ul class="sub-menu">
-									{% for page in menu.pages %}
+									{% for child in menu.children %}
 									<li id="menu-item-{{index}}" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-{{index}}">
-										<a href="{{ path('pages', {slug: menu.slug}) }}#{{page.slug}}">{{page.titre}}</a>
+										<a href="{{ path('pages', {slug: child.page.slug}) }}">{{child.libelle}}</a>
 									</li>
 									{% endfor %}
 								</ul>
@@ -131,11 +131,11 @@
 				<ul style="margin-bottom: 4.5rem">
 					{% for index, menu in supMenu %}
 					<li>
-						{% if menu.pages|length > 1 %}
-						<a href="javascript:;" class="lnk text-prm" onclick="smMenu($(this).next(), {{ (menu.pages|length * 50) }})"><span>{{menu.libelle}}</span></a>
+						{% if menu.children|length > 1 %}
+						<a href="javascript:;" class="lnk text-prm" onclick="smMenu($(this).next(), {{ (menu.children|length * 50) }})"><span>{{menu.libelle}}</span></a>
 						<ul>
-							{% for page in menu.pages %}
-							<li><a href="{{ path('pages', {slug: menu.slug}) }}#{{page.slug}}" class="lnk text-white"><span>{{page.titre}}</span></a></li>
+							{% for page in menu.children %}
+							{# <li><a href="{{ path('pages', {slug: menu.slug}) }}#{{page.slug}}" class="lnk text-white"><span>{{page.titre}}</span></a></li> #}
 							{% endfor %}
 						</ul>
 						{% else %}

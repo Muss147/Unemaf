@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PageRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Mapping\EntityBase;
@@ -29,15 +31,19 @@ class Page extends EntityBase
     #[ORM\Column]
     private bool $active = true;
 
-    #[ORM\ManyToOne(targetEntity: Parametres::class, inversedBy: 'pages')]
-    #[ORM\JoinColumn(nullable: true, onDelete: 'SET NULL')]
-    private ?Parametres $menu = null;
+    #[ORM\OneToMany(targetEntity: Parametres::class, mappedBy: 'page', cascade: ['persist'])]
+    private Collection $menus;
 
     #[ORM\OneToOne(targetEntity: Photos::class, cascade: ['persist'])]
     private ?Photos $couverture = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
+
+    public function __construct()
+    {
+        $this->menus = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -99,17 +105,6 @@ class Page extends EntityBase
         return $this;
     }
 
-    public function getMenu(): ?Parametres
-    {
-        return $this->menu;
-    }
-
-    public function setMenu(?Parametres $menu): static
-    {
-        $this->menu = $menu;
-        return $this;
-    }
-
     public function getSlug(): ?string
     {
         return $this->slug;
@@ -124,5 +119,35 @@ class Page extends EntityBase
     public function isActive(): ?bool
     {
         return $this->active;
+    }
+
+    /**
+     * @return Collection<int, Parametres>
+     */
+    public function getMenus(): Collection
+    {
+        return $this->menus;
+    }
+
+    public function addMenu(Parametres $menu): static
+    {
+        if (!$this->menus->contains($menu)) {
+            $this->menus->add($menu);
+            $menu->setPage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMenu(Parametres $menu): static
+    {
+        if ($this->menus->removeElement($menu)) {
+            // set the owning side to null (unless already changed)
+            if ($menu->getPage() === $this) {
+                $menu->setPage(null);
+            }
+        }
+
+        return $this;
     }
 }
