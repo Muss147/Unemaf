@@ -126,7 +126,7 @@
 								<div class="kt-widget5__item">
 									<div class="kt-widget5__content">
 										<div class="kt-widget5__pic">
-											<img src="{{ asset('uploads/images/' ~ activity.couverture.source|default('defaultImg.png')) }}" alt="Activité-{{ activity.id }}">
+											<img src="{{ asset('uploads/' ~ activity.couverture.source|default('images/defaultImg.png')) }}" alt="Activité-{{ activity.id }}">
 										</div>
 										<div class="kt-widget5__section">
 											<a href="{{ path('activity.new', {id: activity.id}) }}" class="kt-widget5__title">
@@ -237,7 +237,7 @@
 								{% for user in users %}
 								<div class="kt-widget4__item">
 									<div class="kt-widget4__pic kt-widget4__pic--pic">
-										<img src="{{ asset('uploads/images/' ~ user.avatar.source|default('default.jpg')) }}" alt="{{ user.firstname }} {{ user.lastname }}">
+										<img src="{{ asset('uploads/' ~ user.avatar.source|default('images/default.jpg')) }}" alt="{{ user.firstname }} {{ user.lastname }}">
 									</div>
 									<div class="kt-widget4__info">
 										<a href="{{ path('admin.show', {id: user.id}) }}" class="kt-widget4__username">

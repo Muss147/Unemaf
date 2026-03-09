@@ -5,14 +5,14 @@
 				<div class="float-left mr-3">{{ "now"|date("l, d M Y") }}</div>
 				<div class="top-left-content">
 					<ul id="menu-top-menu" class="top-nav mom_visibility_desktop">
-						{% for index, menu in supMenu %}
+						{% for index, menu in supMenu|filter(m => m.parent == null) %}
 						<li id="menu-item-{{index}}" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-parent-item menu-item-{{index}}">
 							{% if menu.children|length != 0 %}
 								<a href="javascript:;">{{menu.libelle|upper}}</a>
 								<ul class="sub-menu">
 									{% for child in menu.children %}
 									<li id="menu-item-{{index}}" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-{{index}}">
-										<a href="{{ path('pages', {slug: child.page.slug}) }}">{{child.libelle}}</a>
+										<a href="{{ path('pages', {slug: child.page.slug|default('#')}) }}">{{child.libelle}}</a>
 									</li>
 									{% endfor %}
 								</ul>
@@ -75,15 +75,15 @@
 				</a>
 			</div>
 			<div class="header-items menu" align="center" style="flex:1">
-				{% for index, menu in mainMenu %}
-					{% if menu.pages|length > 1 and menu.slug != 'contact' %}
+				{% for index, menu in mainMenu|filter(m => m.parent == null) %}
+					{% if menu.children|length > 1 and menu.slug != 'contact' %}
 					<span class="drp-dwn">
 						<a href="javascript:;" class="menu-lnk"><span>{{menu.libelle}}</span><i class="material-icons">keyboard_arrow_down</i></a>
 						<div class="drp-dwn-content d-flex justify-content-start p-5">
 							<div class="mr-4">
 								<a href="" class="menu-lnk border-bottom d-block pb-3 h5">Actualités des instances</a>
 								<ul>
-									{% for page in menu.pages|slice(0, 3) %}
+									{% for page in menu.children|slice(0, 3) %}
 									<li><a href="">{{page.titre}}</a></li>
 									{% endfor %}
 								</ul>
@@ -91,7 +91,7 @@
 							<div class="mr-4">
 								<a href="" class="menu-lnk border-bottom d-block pb-3 h5">Commissions</a>
 								<ul>
-									{% for page in menu.pages|slice(4, 6) %}
+									{% for page in menu.children|slice(4, 6) %}
 									<li><a href="">{{page.titre}}</a></li>
 									{% endfor %}
 								</ul>
