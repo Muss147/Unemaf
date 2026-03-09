@@ -120,7 +120,7 @@
 													<div class="form-group row">
 														<label class="col-xl-3 col-lg-3 col-form-label">Télécharger le Fichier <sup>*</sup></label>
 														<div class="col-md-9 col-sm-12">
-															<input type="file" name="fichier" value="{{ asset('uploads/images/' ~ document.fichier.source) }}">
+															<input type="file" name="fichier" value="{{ asset('uploads/' ~ document.fichier.source|default('')) }}">
 														</div>
 													</div>
 												</div>

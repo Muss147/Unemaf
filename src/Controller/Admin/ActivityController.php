@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Attribute\Route; // Nouveau namespace pour les Attributes
 use Symfony\Component\String\Slugger\SluggerInterface;
 
@@ -24,28 +25,36 @@ class ActivityController extends AbstractController
     ) {}
 
     #[Route('/activity-list', name: 'activity.list')]
-    public function listActivity(ActivityRepository $activityRepository): Response
+    public function listActivity(ActivityRepository $activityRepository, SessionInterface $session): Response
     {
+        $session->set('menu', 'articles');
+        $session->set('sub-menu', 'list-article');
+
         return $this->render('admin/activity/list-activity.html.twig', [
             'activities' => $activityRepository->findAll()
         ]);
     }
 
-    #[Route('/activity-new', name: 'activity.new')]
+    #[Route('/activity-new/{id?}', name: 'activity.new')]
     public function newActivity(
         Request $request, 
-        ActivityRepository $activityRepository,
+        SessionInterface $session, 
+        ?Activity $activity, 
+        ActivityRepository $activityRepository, 
         ParametresRepository $parametreRepository,
         SluggerInterface $slugger
     ): Response
     {
-        $idActivity = $request->query->get("id");
-        $activity = $idActivity ? $activityRepository->find($idActivity) : new Activity();
-        
+        $session->set('menu', 'articles');
+        $session->set('sub-menu', 'add-article');
+
+        $activity ??= new Activity();        
         $types = $parametreRepository->findByType('types activite');
 
         if ($request->isMethod('POST')) {
             $token = $request->request->get("token");
+            $id = $request->request->get("id");
+            $activity = $activityRepository->find($id) ?? new Activity();
             
             if (!$this->isCsrfTokenValid('upload', $token)) {
                 throw $this->createAccessDeniedException('Opération non autorisée (CSRF invalide)');
@@ -68,8 +77,8 @@ class ActivityController extends AbstractController
             $file = $request->files->get('couverture');
             if ($file) {
                 $image = new Photos();
-                $fileName = $this->fileUploader->upload($file);
-                $image->setSource($fileName)->setAlt($titre);
+                $data = $this->fileUploader->upload($file);
+                $image->setSource($data['filename'])->setType($data['type'])->setAlt($titre);
                 $this->em->persist($image);
                 $activity->setCouverture($image);
             }

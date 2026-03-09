@@ -49,16 +49,22 @@ class AdminController extends AbstractController
     }
 
     #[Route('/admin-list', name: 'admin.list')]
-    public function listAdmin(UserRepository $userRepository): Response
+    public function listAdmin(UserRepository $userRepository, SessionInterface $session): Response
     {
+        $session->set('menu', 'admins');
+        $session->set('sub-menu', 'list-admin');
+
         return $this->render('admin/list-admin.html.twig', [
             'users' => $userRepository->findAll()
         ]);
     }
 
     #[Route('/admin-new', name: 'admin.new')]
-    public function newAdmin(Request $request, UserRepository $userRepository): Response
+    public function newAdmin(Request $request, UserRepository $userRepository, SessionInterface $session): Response
     {
+        $session->set('menu', 'admins');
+        $session->set('sub-menu', 'add-admin');
+
         if ($request->isMethod('POST')) {
             $token = $request->request->get("token");
             

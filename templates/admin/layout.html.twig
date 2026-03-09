@@ -136,7 +136,7 @@ Contact: +225 07 471 612 21
 									<i class="kt-menu__section-icon flaticon-more-v2"></i>
 								</li>
 								{% if "ROLE_SUPER_ADMIN" in app.user.roles %}
-								<li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="javascript:;" class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
+								<li class="kt-menu__item  kt-menu__item--submenu {{ app.session.get('menu') == 'admins' ? 'kt-menu__item--open' }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="javascript:;" class="kt-menu__link kt-menu__toggle"><span class="kt-menu__link-icon"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
 												<g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
 													<rect x="0" y="0" width="24" height="24" />
 													<rect fill="#000000" x="4" y="4" width="7" height="7" rx="1.5" />
@@ -147,8 +147,8 @@ Contact: +225 07 471 612 21
 										<span class="kt-menu__arrow"></span>
 										<ul class="kt-menu__subnav">
 											<li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true"><span class="kt-menu__link"><span class="kt-menu__link-text">Gestionnaires</span></span></li>
-											<li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="{{ path('admin.list') }}" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-bullet kt-menu__link-bullet--line"><span></span></i><span class="kt-menu__link-text">Liste des Admins</span></a></li>
-											<li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="{{ path('admin.new') }}" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-bullet kt-menu__link-bullet--line"><span></span></i><span class="kt-menu__link-text">Ajouter un Admin</span></a></li>
+											<li class="kt-menu__item  kt-menu__item--submenu {{ app.session.get('sub-menu') == 'list-admin' ? 'kt-menu__item--active' }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="{{ path('admin.list') }}" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-bullet kt-menu__link-bullet--line"><span></span></i><span class="kt-menu__link-text">Liste des Admins</span></a></li>
+											<li class="kt-menu__item  kt-menu__item--submenu {{ app.session.get('sub-menu') == 'add-admin' ? 'kt-menu__item--active' }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover"><a href="{{ path('admin.new') }}" class="kt-menu__link kt-menu__toggle"><i class="kt-menu__link-bullet kt-menu__link-bullet--line"><span></span></i><span class="kt-menu__link-text">Ajouter un Admin</span></a></li>
 										</ul>
 									</div>
 								</li>
@@ -200,7 +200,7 @@ Contact: +225 07 471 612 21
 										</ul>
 									</div>
 								</li>
-								<li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+								<li class="kt-menu__item  kt-menu__item--submenu {{ app.session.get('menu') == 'articles' ? 'kt-menu__item--open' }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
 									<a href="javascript:;" class="kt-menu__link kt-menu__toggle">
 										<span class="kt-menu__link-icon">
 											<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
@@ -217,13 +217,13 @@ Contact: +225 07 471 612 21
 									<div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
 										<ul class="kt-menu__subnav">
 											<li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true"><span class="kt-menu__link"><span class="kt-menu__link-text">Articles</span></span></li>
-											<li class="kt-menu__item " aria-haspopup="true"><a href="{{ path('activity.list') }}" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Liste des articles</span></a></li>
-											<li class="kt-menu__item " aria-haspopup="true"><a href="{{ path('activity.new') }}" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Ajouter</span></a></li>
-											<li class="kt-menu__item " aria-haspopup="true"><a href="{{ path('param.list', {'type': 'types activite'}) }}" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Types d'article</span></a></li>
+											<li class="kt-menu__item {{ app.session.get('sub-menu') == 'list-article' ? 'kt-menu__item--active' }}" aria-haspopup="true"><a href="{{ path('activity.list') }}" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Liste des articles</span></a></li>
+											<li class="kt-menu__item {{ app.session.get('sub-menu') == 'add-article' ? 'kt-menu__item--active' }}" aria-haspopup="true"><a href="{{ path('activity.new') }}" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Ajouter</span></a></li>
+											<li class="kt-menu__item {{ app.session.get('sub-menu') == 'types activite' ? 'kt-menu__item--active' }}" aria-haspopup="true"><a href="{{ path('param.list', {'type': 'types activite'}) }}" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Types d'article</span></a></li>
 										</ul>
 									</div>
 								</li>
-								<li class="kt-menu__item  kt-menu__item--submenu" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
+								<li class="kt-menu__item  kt-menu__item--submenu {{ app.session.get('menu') == 'docs' ? 'kt-menu__item--open' }}" aria-haspopup="true" data-ktmenu-submenu-toggle="hover">
 									<a href="javascript:;" class="kt-menu__link kt-menu__toggle">
 										<span class="kt-menu__link-icon">
 											<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1" class="kt-svg-icon">
@@ -240,9 +240,9 @@ Contact: +225 07 471 612 21
 									<div class="kt-menu__submenu "><span class="kt-menu__arrow"></span>
 										<ul class="kt-menu__subnav">
 											<li class="kt-menu__item  kt-menu__item--parent" aria-haspopup="true"><span class="kt-menu__link"><span class="kt-menu__link-text">Documents</span></span></li>
-											<li class="kt-menu__item " aria-haspopup="true"><a href="{{ path('document.list') }}" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Liste</span></a></li>
-											<li class="kt-menu__item " aria-haspopup="true"><a href="{{ path('document.new') }}" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Ajout un Doc</span></a></li>
-											<li class="kt-menu__item " aria-haspopup="true"><a href="{{ path('param.list', {'type': 'document'}) }}" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Type de document</span></a></li>
+											<li class="kt-menu__item {{ app.session.get('sub-menu') == 'list-doc' ? 'kt-menu__item--active' }}" aria-haspopup="true"><a href="{{ path('document.list') }}" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Liste</span></a></li>
+											<li class="kt-menu__item {{ app.session.get('sub-menu') == 'add-doc' ? 'kt-menu__item--active' }}" aria-haspopup="true"><a href="{{ path('document.new') }}" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Ajout un Doc</span></a></li>
+											<li class="kt-menu__item {{ app.session.get('sub-menu') == 'document' ? 'kt-menu__item--active' }}" aria-haspopup="true"><a href="{{ path('param.list', {'type': 'document'}) }}" class="kt-menu__link "><i class="kt-menu__link-bullet kt-menu__link-bullet--dot"><span></span></i><span class="kt-menu__link-text">Type de document</span></a></li>
 										</ul>
 									</div>
 								</li>

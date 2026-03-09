@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/admin')]
@@ -25,8 +26,11 @@ class DocumentsController extends AbstractController
     ) {}
 
     #[Route('/document-list', name: 'document.list')]
-    public function listDocument(): Response
+    public function listDocument(SessionInterface $session): Response
     {
+        $session->set('menu', 'docs');
+        $session->set('sub-menu', 'list-doc');
+
         return $this->render('admin/document/list-document.html.twig', [
             'documents' => $this->documentsRepository->findAll()
         ]);
@@ -42,12 +46,15 @@ class DocumentsController extends AbstractController
     }
 
     #[Route('/document-new', name: 'document.new')]
-    public function newDocument(Request $request, FileUploader $fileUploader): Response
+    public function newDocument(Request $request, FileUploader $fileUploader, SessionInterface $session): Response
     {
-        $id = $request->query->get("id");
+        $session->set('menu', 'docs');
+        $session->set('sub-menu', 'add-doc');
+
+        $id = $request->query->get("id") ?? $request->request->get("id");
         $document = $id ? $this->documentsRepository->find($id) : new Documents();
         
-        $types = $this->parametresRepository->findByType('documents');
+        $types = $this->parametresRepository->findByType('document');
 
         if ($request->isMethod('POST')) {
             $token = $request->request->get("token");
@@ -73,8 +80,8 @@ class DocumentsController extends AbstractController
                 $file = $request->files->get('fichier');
                 if ($file) {
                     $photo = new Photos();
-                    $fileName = $fileUploader->upload($file);
-                    $photo->setSource($fileName)->setAlt($titre);
+                    $data = $fileUploader->upload($file);
+                    $photo->setSource($data['filename'])->setType($data['type'])->setAlt($titre);
                     $this->em->persist($photo);
                     $document->setFichier($photo);
                 }

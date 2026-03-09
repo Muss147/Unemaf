@@ -34,14 +34,14 @@ class HomeController extends AbstractController
         ]);
     }
 
-    public function secondarySidebar(DocumentsRepository $documentsRepository): Response
+    public function secondarySidebar(DocumentsRepository $documentsRepository, ParametresRepository $parametreRepository): Response
     {
         // On suppose que findByType est une méthode personnalisée dans ton repository
         // Sinon, utilise findBy(['type' => 3])
         return $this->render('pages/_secondarySidebar.html.twig', [
-            'noteCirculaires' => $documentsRepository->findBy(['type' => 3]),
-            'docUtiles' => $documentsRepository->findBy(['type' => 5]),
-            'catalogues' => $documentsRepository->findBy(['type' => 6]),
+            'noteCirculaires' => $documentsRepository->findByType($parametreRepository->findOneByLibelle('Notes circulaires')),
+            'docUtiles' => $documentsRepository->findByType($parametreRepository->findOneByLibelle('Documents utiles')),
+            'catalogues' => $documentsRepository->findByType($parametreRepository->findOneByLibelle('Catalogue')),
         ]);
     }
 
@@ -64,6 +64,8 @@ class HomeController extends AbstractController
     public function showpage(PageRepository $pageRepository, $slug): Response
     {
         $page = $pageRepository->findOneBySlug($slug);
+        if (!$page) throw $this->createNotFoundException('Page non trouvée.');
+        
         return $this->render('pages/pages.html.twig', [
             'page' => $page,
             'menus' => $page->getMenus(),

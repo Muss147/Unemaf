@@ -133,7 +133,7 @@
 								<div class="kt-widget5__item">
 									<div class="kt-widget5__content">
 										<div class="kt-widget5__pic">
-											<img src="{{ asset('uploads/images/' ~ page.couverture.source|default('defaultImg.png')) }}" alt="Page-{{ page.id }}">
+											<img src="{{ asset('uploads/' ~ page.couverture.source|default('images/defaultImg.png')) }}" alt="Page-{{ page.id }}">
 										</div>
 										<div class="kt-widget5__section">
 											<a href="{{ path('page.new', {id: page.id}) }}" class="kt-widget5__title">
@@ -150,7 +150,7 @@
 									</div>
 									<div class="kt-widget5__content">
 										<div class="kt-widget5__stats">
-											<a href="{{ path('page.new', {'id': page.id}) }}" class="btn btn-sm btn-label-brand btn-bold">Modifier</a>
+											<a href="{{ path('page.new', {'id': page.id ?? 0}) }}" class="btn btn-sm btn-label-brand btn-bold">Modifier</a>
 										</div>
 										<div class="kt-widget5__stats">
 											<form action="{{ path('page.delete', {id: page.id}) }}" method="post" onsubmit="return confirm('Êtes-vous vraiment sûr ?')">

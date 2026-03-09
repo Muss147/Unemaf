@@ -37,9 +37,10 @@ class PageController extends AbstractController
         ]);
     }
 
-    #[Route('/page-new', name: 'page.new')]
+    #[Route('/page-new/{id?}', name: 'page.new', defaults: ['id' => null])]
     public function newPage(
         Request $request, 
+        ?Page $page, 
         SessionInterface $session, 
         FileUploader $fileUploader, 
         ParametresRepository $parametresRepository, 
@@ -49,8 +50,7 @@ class PageController extends AbstractController
         $session->set('menu', 'pages');
         $session->set('sub-menu', 'add-page');
 
-        $idPage = $request->query->get("id");
-        $page = $idPage ? $this->pageRepository->find($idPage) : new Page();
+        $page ??= new Page();
         
         $supMenu = $this->parametresRepository->findByType('sup-menu');
         $mainMenu = $this->parametresRepository->findByType('main-menu');
@@ -86,8 +86,8 @@ class PageController extends AbstractController
             $file = $request->files->get('couverture');
             if ($file) {
                 $image = new Photos();
-                $fileName = $fileUploader->upload($file);
-                $image->setSource($fileName)->setAlt($titre);
+                $data = $fileUploader->upload($file);
+                $image->setSource($data['filename'])->setType($data['type'])->setAlt($titre);
                 $this->em->persist($image);
                 $page->setCouverture($image);
             }

@@ -29,7 +29,7 @@ class ParametresController extends AbstractController
     ): Response {
         // Utilisation de query->get pour les paramètres d'URL (GET)
         $type = $request->query->get('type');
-        $session->set('menu', 'menus');
+        $session->set('menu', ($type == 'types activite') ? 'articles' : (($type == 'document') ? 'docs' : 'menus'));
         $session->set('sub-menu', $type);
 
         $pages = $pageRepository->findAll();

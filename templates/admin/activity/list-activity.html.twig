@@ -176,10 +176,10 @@
 								<div class="kt-widget5__item">
 									<div class="kt-widget5__content">
 										<div class="kt-widget5__pic">
-											<img src="{{ asset('uploads/images/' ~ activity.couverture.source|default('defaultImg.png')) }}" alt="Activité-{{ activity.id }}">
+											<img src="{{ asset('uploads/' ~ activity.couverture.source|default('images/defaultImg.png')) }}" alt="Activité-{{ activity.id }}">
 										</div>
 										<div class="kt-widget5__section">
-											<a href="{{ path('activity.new', {id: activity.id}) }}" class="kt-widget5__title">
+											<a href="{{ path('activity.new', {id: activity.id ?? 0}) }}" class="kt-widget5__title">
 												{{ activity.titre }}
 											</a>
 											<p class="kt-widget5__desc">

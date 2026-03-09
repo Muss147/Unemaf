@@ -95,7 +95,7 @@
 														<div class="col-12">
 															<label class="col-form-label">Couverture <sup>*</sup></label>
 															<div class="kt-avatar kt-avatar--outline" id="kt_user_add_avatar" style="width: 100%">
-																<div class="kt-avatar__holder" style="background-image: url({{ asset('uploads/images/' ~ page.couverture.source|default('defaultImg.png')) }}); width: 100%; height: 200px"></div>
+																<div class="kt-avatar__holder" style="background-image: url({{ asset('uploads/' ~ page.couverture.source|default('images/defaultImg.png')) }}); width: 100%; height: 200px"></div>
 																<label class="kt-avatar__upload" data-toggle="kt-tooltip" title="Change avatar">
 																	<i class="fa fa-pen"></i>
 																	<input type="hidden" name="token" value="{{ csrf_token('upload') }}" />
